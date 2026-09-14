@@ -47,7 +47,9 @@ def init_db():
         comment TEXT DEFAULT '',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(username, sale_date)
-    )''') for username in USERS:
+        )''')
+
+    for username in USERS:
         conn.execute('INSERT OR IGNORE INTO stats(username, calls, appointments, sales, target) VALUES (?,0,0,0,10)', (username,))
     conn.commit()
     conn.close()
