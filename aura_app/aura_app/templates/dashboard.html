@@ -1,70 +1,335 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AURA — Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AURA — Command Center</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-<div class="app-shell">
-  <aside class="sidebar">
-    <div class="logo">AURA<span>✦</span></div>
-    <div class="welcome">Bonjour<br><strong>{{ display }}</strong></div>
-    <nav>
-      <a class="active">⌂ Tableau de bord</a>
-      <a href="#classement">♕ Classement</a>
-      <a href="#stats">◈ Mes stats</a>
+
+<div class="app-shell premium-dashboard">
+
+  <aside class="sidebar premium-sidebar">
+
+    <div class="sidebar-top">
+      <div class="logo">AURA<span>✦</span></div>
+      <div class="sidebar-sub">COMMAND CENTER</div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-avatar">{{ display[0] }}</div>
+      <div>
+        <small>CONNECTÉE EN TANT QUE</small>
+        <strong>{{ display }}</strong>
+      </div>
+      <span class="online-dot"></span>
+    </div>
+
+    <nav class="premium-nav">
+      <a class="active">
+        <span>⌂</span>
+        Tableau de bord
+      </a>
+
+      <a href="#classement">
+        <span>♕</span>
+        Classement
+      </a>
+
+      <a href="#stats">
+        <span>◈</span>
+        Mes statistiques
+      </a>
     </nav>
-    <a class="logout" href="{{ url_for('logout') }}">↪ Déconnexion</a>
-  </aside>
-  <main class="content">
-    <div class="topline"><div><span class="eyebrow">COMMAND CENTER</span><h1>Bonjour {{ display }} ✨</h1><p>Voici ton avancée et celle de l'équipe.</p></div><div class="pill">AURA TEAM</div></div>
 
-    {% with messages = get_flashed_messages() %}{% if messages %}<div class="toast">{{ messages[0] }}</div>{% endif %}{% endwith %}
-
-    <section class="cards">
-      <div class="metric lavender"><span>Appels</span><strong>{{ me.calls }}</strong><small>aujourd'hui / cumul</small></div>
-      <div class="metric peach"><span>Rendez-vous</span><strong>{{ me.appointments }}</strong><small>obtenus</small></div>
-      <div class="metric mint"><span>Ventes</span><strong>{{ me.sales }}</strong><small>conclues</small></div>
-      <div class="metric sky"><span>Objectif</span><strong>{{ me.target }}</strong><small>{{ progress }}% atteint</small></div>
-    </section>
-
-    <section class="grid-two">
-      <div class="panel progress-panel">
-        <div class="panel-title"><div><span class="eyebrow">PROGRESSION</span><h2>Mon objectif</h2></div><span class="score">{{ me.sales }}/{{ me.target }}</span></div>
-        <div class="progress"><div style="width: {{ progress }}%"></div></div>
-        <div class="progress-note"><strong>{{ progress }}%</strong><span>Continue comme ça ✦</span></div>
-      </div>
-      <div class="panel team-total">
-        <span class="eyebrow">ÉQUIPE</span><h2>Performance globale</h2>
-        <div class="triple"><div><strong>{{ totals.calls }}</strong><span>Appels</span></div><div><strong>{{ totals.appointments }}</strong><span>RDV</span></div><div><strong>{{ totals.sales }}</strong><span>Ventes</span></div></div>
-      </div>
-    </section>
-
-    <section class="grid-two" id="classement">
-      <div class="panel leaderboard">
-        <div class="panel-title"><div><span class="eyebrow">TOP TEAM</span><h2>Classement</h2></div><span>♕</span></div>
-        {% for m in leaderboard %}
-        <div class="rank-row {% if m.username == session.username %}is-me{% endif %}">
-          <div class="rank">{{ loop.index }}</div><div class="avatar">{{ m.display[0] }}</div>
-          <div class="person"><strong>{{ m.display }}</strong><small>{{ m.appointments }} RDV • {{ m.calls }} appels</small></div>
-          <div class="sales-badge">{{ m.sales }} ventes</div>
+    <div class="sidebar-bottom">
+      <div class="system-status">
+        <span class="status-dot"></span>
+        <div>
+          <small>SYSTÈME</small>
+          <strong>Opérationnel</strong>
         </div>
-        {% endfor %}
       </div>
 
-      <div class="panel edit-panel" id="stats">
-        <span class="eyebrow">MES CHIFFRES</span><h2>Mettre à jour</h2>
-        <form method="post" action="{{ url_for('update') }}" class="stats-form">
-          <label>Appels<input type="number" min="0" name="calls" value="{{ me.calls }}" required></label>
-          <label>Rendez-vous<input type="number" min="0" name="appointments" value="{{ me.appointments }}" required></label>
-          <label>Ventes<input type="number" min="0" name="sales" value="{{ me.sales }}" required></label>
-          <label>Objectif<input type="number" min="1" name="target" value="{{ me.target }}" required></label>
-          <button type="submit">Enregistrer ✦</button>
-        </form>
+      <a class="logout" href="{{ url_for('logout') }}">
+        ↪ Déconnexion
+      </a>
+    </div>
+
+  </aside>
+
+  <main class="content premium-content">
+
+    <section class="dashboard-hero">
+
+      <div class="hero-left">
+        <div class="eyebrow">AURA • COMMAND CENTER</div>
+        <h1>Bonjour {{ display }} <span>✦</span></h1>
+        <p>Voici ta performance, tes objectifs et l’avancée de toute l’équipe.</p>
       </div>
+
+      <div class="hero-right">
+        <div class="team-pill">
+          <span class="team-dot"></span>
+          AURA TEAM
+        </div>
+      </div>
+
     </section>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="toast">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <section class="premium-metrics">
+
+      <div class="metric-card purple-card">
+        <div class="metric-head">
+          <span>APPELS</span>
+          <div class="metric-icon">☎</div>
+        </div>
+
+        <strong>{{ me.calls }}</strong>
+        <small>activité enregistrée</small>
+
+        <div class="metric-line">
+          <span></span>
+        </div>
+      </div>
+
+      <div class="metric-card pink-card">
+        <div class="metric-head">
+          <span>RENDEZ-VOUS</span>
+          <div class="metric-icon">◫</div>
+        </div>
+
+        <strong>{{ me.appointments }}</strong>
+        <small>rendez-vous obtenus</small>
+
+        <div class="metric-line">
+          <span></span>
+        </div>
+      </div>
+
+      <div class="metric-card mint-card">
+        <div class="metric-head">
+          <span>VENTES</span>
+          <div class="metric-icon">✦</div>
+        </div>
+
+        <strong>{{ me.sales }}</strong>
+        <small>ventes conclues</small>
+
+        <div class="metric-line">
+          <span></span>
+        </div>
+      </div>
+
+      <div class="metric-card blue-card">
+        <div class="metric-head">
+          <span>OBJECTIF</span>
+          <div class="metric-icon">◎</div>
+        </div>
+
+        <strong>{{ me.target }}</strong>
+        <small>{{ progress }}% atteint</small>
+
+        <div class="metric-line">
+          <span style="width: {{ progress }}%"></span>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="dashboard-grid">
+
+      <div class="premium-panel objective-panel">
+
+        <div class="panel-heading">
+          <div>
+            <div class="eyebrow">PROGRESSION</div>
+            <h2>Mon objectif</h2>
+          </div>
+
+          <div class="objective-score">
+            {{ me.sales }} / {{ me.target }}
+          </div>
+        </div>
+
+        <div class="big-progress">
+          <div style="width: {{ progress }}%"></div>
+        </div>
+
+        <div class="progress-info">
+          <div>
+            <strong>{{ progress }}%</strong>
+            <span>de ton objectif atteint</span>
+          </div>
+
+          <div class="motivation">
+            Continue comme ça ✦
+          </div>
+        </div>
+
+      </div>
+
+      <div class="premium-panel global-panel">
+
+        <div class="eyebrow">ÉQUIPE</div>
+        <h2>Performance globale</h2>
+
+        <div class="team-stat-grid">
+
+          <div>
+            <span>APPELS</span>
+            <strong>{{ totals.calls }}</strong>
+          </div>
+
+          <div>
+            <span>RDV</span>
+            <strong>{{ totals.appointments }}</strong>
+          </div>
+
+          <div>
+            <span>VENTES</span>
+            <strong>{{ totals.sales }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="dashboard-grid lower-grid">
+
+      <div class="premium-panel leaderboard-panel" id="classement">
+
+        <div class="panel-heading">
+          <div>
+            <div class="eyebrow">TOP TEAM</div>
+            <h2>Classement</h2>
+          </div>
+
+          <div class="crown-icon">♕</div>
+        </div>
+
+        <div class="leaderboard-list">
+
+          {% for m in leaderboard %}
+
+          <div class="premium-rank-row {% if m.username == session.username %}is-me{% endif %}">
+
+            <div class="rank-number">
+              {% if loop.index == 1 %}
+                ♛
+              {% else %}
+                {{ "%02d"|format(loop.index) }}
+              {% endif %}
+            </div>
+
+            <div class="rank-avatar">
+              {{ m.display[0] }}
+            </div>
+
+            <div class="rank-person">
+              <strong>{{ m.display }}</strong>
+              <small>
+                {{ m.appointments }} RDV • {{ m.calls }} appels
+              </small>
+            </div>
+
+            <div class="rank-sales">
+              {{ m.sales }}
+              <span>ventes</span>
+            </div>
+
+          </div>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      <div class="premium-panel update-panel" id="stats">
+
+        <div class="eyebrow">MES CHIFFRES</div>
+        <h2>Mettre à jour</h2>
+
+        <p class="update-text">
+          Mets à jour tes résultats pour garder ton tableau de bord à jour.
+        </p>
+
+        <form method="post" action="{{ url_for('update') }}" class="premium-form">
+
+          <label>
+            <span>Appels</span>
+            <input
+              type="number"
+              min="0"
+              name="calls"
+              value="{{ me.calls }}"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Rendez-vous</span>
+            <input
+              type="number"
+              min="0"
+              name="appointments"
+              value="{{ me.appointments }}"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Ventes</span>
+            <input
+              type="number"
+              min="0"
+              name="sales"
+              value="{{ me.sales }}"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Objectif</span>
+            <input
+              type="number"
+              min="1"
+              name="target"
+              value="{{ me.target }}"
+              required
+            >
+          </label>
+
+          <button type="submit">
+            <span>Enregistrer mes chiffres</span>
+            <b>↗</b>
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+    <footer class="dashboard-footer">
+      <span>AURA COMMAND CENTER</span>
+      <span>Performance • Équipe • Progression</span>
+    </footer>
+
   </main>
+
 </div>
+
 </body>
 </html>
