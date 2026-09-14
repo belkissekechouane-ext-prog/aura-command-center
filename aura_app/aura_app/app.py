@@ -6,12 +6,14 @@ app.secret_key = os.environ.get('SECRET_KEY', 'change-this-in-render')
 DB_PATH = os.environ.get('DB_PATH', 'aura.db')
 
 USERS = {
-    'nesrine': {'display': 'Nesrine', 'salt': 'E9tx37Rhl9gb/LxqXWzWHg==', 'hash': 'W6QO4NR3eKE2iCOjCBq4C9AFfgfZExB2/L1V8ZEwdPo='},
-    'adel': {'display': 'Adel', 'salt': 'otsKOPqZRuzPSnSjferUGw==', 'hash': '5cWnse3UhpwLw34neo2I3x7Zyic3nvCGVuoNx4ZKDU4='},
-    'alix': {'display': 'Alix', 'salt': 'SF+w04w4hOKlGNiXV3201Q==', 'hash': 'NfKCDvu39pu2pciRs+M4HyvTaSzCq6gP3ezk6HIiZSU='},
-    'ahmed': {'display': 'Ahmed', 'salt': '0bsuphn3a1gs1UtELbtCQQ==', 'hash': 'FipxcYvuRFORSd8ZmLeJBRqqGd1eGQpv1zI75GtFlG0='},
-    'cyrin': {'display': 'Cyrin', 'salt': 'MLz/Yl3AugU6xi/OCQMBJg==', 'hash': '32nBAJu/qcpSsmiIQVW7xIhHchF5U2089qx35/4ekRY='},
-    'ahlam': {'display': 'Ahlam', 'salt': 'XGpdymELvypwmJBCbRfdCQ==', 'hash': 'T4PYFensvLgoOo1UbcnHYO6qAJRyUwwnwfy22k/4+qY='},
+    'USERS = {
+    'nesrine': {'display': 'Nesrine', 'salt': 'YkJ+IC4c+50Q/z2fy1YomA==', 'hash': 'M8D/K0eEGU3GMi9vz1hfXGOKN4tZdX7Nbv5cQ4AFBCU='},
+    'adel': {'display': 'Adel', 'salt': 'rkrm0MQy2tEsScpRU2TmiQ==', 'hash': 'aNy0apF27DHhFZwcybh6rbHaH1DeO3myVyMXjtEROwg='},
+    'alix': {'display': 'Alix', 'salt': 'Uv2TMHtO11TwxejaeUIdEA==', 'hash': 'JEuHg8qIGcVmLwBsk098KDXnlKdrGINN+4vc47e7GGQ='},
+    'ahmed': {'display': 'Ahmed', 'salt': 'pnn1/1FsZFeVMfAtZ7QhWg==', 'hash': '1L7mmUKyKvwNBm4OkNwUjMk0KsTbQ6IvBo7Nbhdd27k='},
+    'cyrin': {'display': 'Cyrin', 'salt': 'idSPDKKk86GNV79qznvKeg==', 'hash': 'B0XRKgYF459SGJ4N8UAn31NvJGae6goUUaaYnSln78U='},
+    'ahlam': {'display': 'Ahlam', 'salt': 'CaGZQWaot6fM7dZ7/cmAHQ==', 'hash': 'YSTaje9F3DUINpG4xgZNRFFLngQCzM673tTWuVee3Kw='},
+}
 }
 
 def verify_password(password, salt_b64, hash_b64):
