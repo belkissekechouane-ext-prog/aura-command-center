@@ -1,34 +1,177 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AURA — Connexion</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AURA — Command Center</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body class="login-page">
-  <div class="aurora a1"></div><div class="aurora a2"></div>
-  <main class="login-shell">
-    <section class="brand-panel">
-      <div class="mini-badge">✦ ÉQUIPE PERFORMANCE</div>
-      <h1>AURA</h1>
-      <p>Le centre de commandement de l'équipe.</p>
-      <div class="orbit-card"><span>✦</span><strong>Objectifs</strong><small>Suivre, progresser, gagner.</small></div>
-      <div class="quote">“Chaque appel compte. Chaque victoire se construit.”</div>
+
+  <div class="noise"></div>
+  <div class="aurora aurora-1"></div>
+  <div class="aurora aurora-2"></div>
+  <div class="aurora aurora-3"></div>
+
+  <div class="stars">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main class="aura-landing">
+
+    <section class="hero">
+
+      <div class="top-badge">
+        <span class="live-dot"></span>
+        AURA COMMAND CENTER
+      </div>
+
+      <div class="hero-copy">
+        <p class="eyebrow">PERFORMANCE • ÉQUIPE • PROGRESSION</p>
+
+        <h1>
+          <span>AURA</span>
+        </h1>
+
+        <h2>Command your performance.</h2>
+
+        <p class="hero-text">
+          Une plateforme pensée pour suivre les objectifs,
+          mesurer la progression et transformer chaque effort en victoire.
+        </p>
+      </div>
+
+      <div class="hero-actions">
+        <button type="button" class="primary-cta" onclick="document.querySelector('.login-card').scrollIntoView({behavior:'smooth'})">
+          Entrer dans AURA
+          <span>↗</span>
+        </button>
+
+        <div class="status">
+          <span class="status-dot"></span>
+          Système opérationnel
+        </div>
+      </div>
+
+      <div class="floating floating-one">
+        <div class="float-icon">✦</div>
+        <div>
+          <small>OBJECTIF</small>
+          <strong>Performance</strong>
+          <span>Construire. Suivre. Dépasser.</span>
+        </div>
+      </div>
+
+      <div class="floating floating-two">
+        <div class="mini-chart">
+          <i style="height:35%"></i>
+          <i style="height:52%"></i>
+          <i style="height:68%"></i>
+          <i style="height:88%"></i>
+        </div>
+        <div>
+          <small>PROGRESSION</small>
+          <strong>+24%</strong>
+        </div>
+      </div>
+
+      <div class="floating floating-three">
+        <div class="ranking">
+          <span>01</span>
+          <div>
+            <small>CLASSEMENT</small>
+            <strong>Top Performer</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-footer">
+        <span>01</span>
+        <div></div>
+        <p>Chaque appel compte. Chaque victoire se construit.</p>
+      </div>
+
     </section>
-    <section class="login-card">
-      <div class="crown">♕</div>
-      <h2>Bienvenue</h2>
-      <p>Connecte-toi à ton espace personnel.</p>
-      {% with messages = get_flashed_messages() %}{% if messages %}<div class="alert">{{ messages[0] }}</div>{% endif %}{% endwith %}
-      <form method="post">
-        <label>Identifiant</label>
-        <input name="username" placeholder="ex. alix" autocomplete="username" required>
-        <label>Mot de passe</label>
-        <input name="password" type="password" placeholder="••••••••••••" autocomplete="current-password" required>
-        <button type="submit">Entrer dans AURA ✦</button>
-      </form>
-      <small class="secure">🔒 Accès privé à l'équipe</small>
+
+    <section class="login-zone">
+
+      <div class="login-card">
+
+        <div class="login-head">
+          <div class="aura-symbol">A</div>
+
+          <div class="secure-badge">
+            <span></span>
+            ACCÈS PRIVÉ
+          </div>
+        </div>
+
+        <div class="login-title">
+          <p>RAVIE DE TE REVOIR</p>
+          <h3>Bienvenue dans <span>AURA</span></h3>
+          <small>Connecte-toi à ton espace personnel.</small>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert">
+              {{ messages[0] }}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form method="post">
+
+          <div class="field">
+            <label>Identifiant</label>
+            <div class="input-wrap">
+              <span>◎</span>
+              <input
+                name="username"
+                placeholder="Votre identifiant"
+                autocomplete="username"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Mot de passe</label>
+            <div class="input-wrap">
+              <span>◇</span>
+              <input
+                name="password"
+                type="password"
+                placeholder="••••••••••••"
+                autocomplete="current-password"
+                required
+              >
+            </div>
+          </div>
+
+          <button class="login-button" type="submit">
+            <span>Entrer dans AURA</span>
+            <b>↗</b>
+          </button>
+
+        </form>
+
+        <div class="login-bottom">
+          <span class="lock">◇</span>
+          Connexion sécurisée
+        </div>
+
+      </div>
+
+      <div class="signature">
+        AURA • COMMAND CENTER
+      </div>
+
     </section>
+
   </main>
+
 </body>
 </html>
