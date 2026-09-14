@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA — Suivi journalier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .suivi-page {
+            min-height: 100vh;
+            padding: 28px;
+            background:
+                radial-gradient(circle at top left, rgba(172,140,255,.12), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(255,176,220,.10), transparent 32%),
+                #0b0d12;
+            color: #f8f6ff;
+        }
+
+        .suivi-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .suivi-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .suivi-title h1 {
+            margin: 0;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .suivi-title p {
+            margin: 7px 0 0;
+            color: #a9a7b5;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.06);
+            padding: 11px 16px;
+            border-radius: 14px;
+        }
+
+        .suivi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,.055);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .metric-label {
+            color: #aaa8b8;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 30px;
+            font-weight: 700;
+        }        .suivi-card {
+            background: rgba(255,255,255,.055);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 22px;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .suivi-card h2 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            color: #b8b5c4;
+            font-size: 13px;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 13px;
+            border-radius: 13px;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(255,255,255,.05);
+            color: white;
+            outline: none;
+        }
+
+        .save-btn {
+            margin-top: 16px;
+            border: none;
+            border-radius: 14px;
+            padding: 13px 18px;
+            cursor: pointer;
+            color: #17131f;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d7c4ff, #f5c7df);
+        }
+
+        .flash {
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(210,191,255,.10);
+            border: 1px solid rgba(210,191,255,.20);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 13px 12px;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        th {
+            color: #aaa8b8;
+            font-size: 12px;
+        }
+
+        .comment-cell {
+            min-width: 220px;
+            color: #c7c4cf;
+        }
+
+        .empty-state {
+            color: #aaa8b8;
+            padding: 18px 0;
+        }
+
+        @media (max-width: 900px) {
+            .suivi-grid,
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .suivi-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .suivi-topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="suivi-page">
+        <div class="suivi-wrap">
+
+            <div class="suivi-topbar">
+                <div class="suivi-title">
+                    <h1>Suivi journalier</h1>
+                    <p>Bonjour {{ display }} ✦ Enregistre ta journée et suis la progression de l’équipe.</p>
+                </div>
+
+                <a class="back-btn" href="{{ url_for('dashboard') }}">
+                    ← Retour au dashboard
+                </a>
+            </div>            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <section class="suivi-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Appels</div>
+                    <div class="metric-value">{{ totals.calls }}</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">Rendez-vous</div>
+                    <div class="metric-value">{{ totals.appointments }}</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">Ventes</div>
+                    <div class="metric-value">{{ totals.sales }}</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label">CA total</div>
+                    <div class="metric-value">{{ '%.2f'|format(totals.revenue) }} €</div>
+                </div>
+            </section>
+
+            <section class="suivi-card">
+                <h2>Ajouter / modifier ma journée</h2>
+
+                <form method="POST">
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label>Date</label>
+                            <input type="date" name="sale_date" required>
+                        </div>
+
+                        <div class="field">
+                            <label>Appels</label>
+                            <input type="number" name="calls" min="0" value="0">
+                        </div>
+
+                        <div class="field">
+                            <label>Rendez-vous</label>
+                            <input type="number" name="appointments" min="0" value="0">
+                        </div>
+
+                        <div class="field">
+                            <label>Ventes</label>
+                            <input type="number" name="sales" min="0" value="0">
+                        </div>
+
+                        <div class="field">
+                            <label>Chiffre d’affaires (€)</label>
+                            <input type="number" step="0.01" name="revenue" min="0" value="0">
+                        </div>
+
+                        <div class="field full">
+                            <label>Commentaire</label>
+                            <textarea
+                                name="comment"
+                                rows="3"
+                                placeholder="Ex : bonne journée, objections récurrentes, relances à prévoir..."
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <button class="save-btn" type="submit">
+                        Enregistrer ma journée
+                    </button>
+                </form>
+            </section>            <section class="suivi-card">
+
+                <h2>Historique de l’équipe</h2>
+
+                {% if entries %}
+
+                    <div class="table-wrap">
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Membre</th>
+                                    <th>Appels</th>
+                                    <th>RDV</th>
+                                    <th>Ventes</th>
+                                    <th>CA</th>
+                                    <th>Commentaire</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in entries %}
+                                    <tr>
+                                        <td>{{ item.sale_date }}</td>
+                                        <td>{{ item.display }}</td>
+                                        <td>{{ item.calls }}</td>
+                                        <td>{{ item.appointments }}</td>
+                                        <td>{{ item.sales }}</td>
+                                        <td>{{ '%.2f'|format(item.revenue) }} €</td>
+                                        <td class="comment-cell">
+                                            {{ item.comment or '—' }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+                        Aucune journée enregistrée pour le moment.
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        </div>
+    </main>
+</body>
+</html>
