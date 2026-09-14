@@ -14,7 +14,7 @@ USERS = {
     'cyrin': {'display': 'Cyrin', 'salt': 'idSPDKKk86GNV79qznvKeg==', 'hash': 'B0XRKgYF459SGJ4N8UAn31NvJGae6goUUaaYnSln78U='},
     'ahlam': {'display': 'Ahlam', 'salt': 'CaGZQWaot6fM7dZ7/cmAHQ==', 'hash': 'YSTaje9F3DUINpG4xgZNRFFLngQCzM673tTWuVee3Kw='},
 }
-}
+
 
 def verify_password(password, salt_b64, hash_b64):
     salt = base64.b64decode(salt_b64)
