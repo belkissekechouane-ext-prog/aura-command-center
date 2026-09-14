@@ -702,3 +702,425 @@ button,input{
     font-size:27px;
   }
 }
+
+
+/* =========================================================
+   AURA — DASHBOARD
+   ========================================================= */
+
+body:not(.login-page){
+  background:linear-gradient(135deg,#fbf9ff,#fff8f4 48%,#f6fbff);
+  color:#3f3b55;
+  min-height:100vh;
+}
+
+body:not(.login-page) a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.app-shell{
+  display:grid;
+  grid-template-columns:245px 1fr;
+  min-height:100vh;
+}
+
+.sidebar{
+  padding:30px 22px;
+  background:rgba(255,255,255,.78);
+  border-right:1px solid #ece8f4;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+
+.logo span{
+  color:#c59ed5;
+}
+
+.welcome{
+  margin:38px 0 24px;
+  padding:16px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#eee9ff,#fff0e8);
+  line-height:1.45;
+}
+
+.sidebar nav{
+  display:grid;
+  gap:8px;
+}
+
+.sidebar nav a{
+  padding:12px 14px;
+  border-radius:13px;
+  color:#746d84;
+  font-weight:650;
+  transition:.2s ease;
+}
+
+.sidebar nav a:hover{
+  background:#f7f4ff;
+  transform:translateX(3px);
+}
+
+.sidebar nav a.active{
+  background:#f0ecff;
+  color:#64578a;
+}
+
+.logout{
+  position:absolute;
+  bottom:28px;
+  left:22px;
+  color:#8b8098;
+}
+
+.content{
+  padding:38px 46px 60px;
+  max-width:1500px;
+  width:100%;
+  margin:auto;
+}
+
+.topline{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.topline h1{
+  font-size:34px;
+  margin:4px 0;
+  color:#3f3b55;
+}
+
+.topline p{
+  color:#8d88a1;
+  margin:0;
+}
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.16em;
+  font-weight:800;
+  color:#8277a4;
+}
+
+.pill{
+  background:#fff;
+  border:1px solid #ece8f4;
+  border-radius:999px;
+  padding:10px 15px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+
+.toast{
+  margin:20px 0 -6px;
+  background:#effaf3;
+  border:1px solid #d9f0e2;
+  color:#4f7a5e;
+  padding:12px 15px;
+  border-radius:14px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin:30px 0;
+}
+
+.metric{
+  border-radius:22px;
+  padding:22px;
+  min-height:135px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.8),
+    0 12px 35px rgba(93,76,118,.05);
+  transition:.25s ease;
+}
+
+.metric:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.9),
+    0 18px 38px rgba(93,76,118,.10);
+}
+
+.metric span,
+.metric small{
+  display:block;
+}
+
+.metric span{
+  font-size:13px;
+  font-weight:700;
+}
+
+.metric strong{
+  display:block;
+  font-size:38px;
+  margin:8px 0;
+}
+
+.metric small{
+  color:#766f84;
+}
+
+.lavender{
+  background:#ded7ff;
+}
+
+.peach{
+  background:#ffe0cf;
+}
+
+.mint{
+  background:#d7f2e5;
+}
+
+.sky{
+  background:#d9e9ff;
+}
+
+.grid-two{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.panel{
+  background:rgba(255,255,255,.88);
+  border:1px solid #ece8f4;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 12px 40px rgba(93,76,118,.06);
+}
+
+.panel h2{
+  margin:4px 0 18px;
+  color:#3f3b55;
+}
+
+.panel-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.score{
+  background:#f2eeff;
+  border-radius:999px;
+  padding:8px 11px;
+  font-weight:800;
+}
+
+.progress{
+  height:15px;
+  background:#f0edf5;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress div{
+  height:100%;
+  background:linear-gradient(90deg,#9e91e6,#e2a7c5);
+  border-radius:99px;
+}
+
+.progress-note{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  color:#8d88a1;
+}
+
+.progress-note strong{
+  color:#74648e;
+}
+
+.triple{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.triple div{
+  padding:16px 10px;
+  border-radius:16px;
+  background:#faf8ff;
+  text-align:center;
+}
+
+.triple strong{
+  display:block;
+  font-size:26px;
+}
+
+.triple span{
+  font-size:12px;
+  color:#8d88a1;
+}
+
+.rank-row{
+  display:grid;
+  grid-template-columns:34px 40px 1fr auto;
+  align-items:center;
+  gap:10px;
+  padding:11px 8px;
+  border-top:1px solid #f1edf6;
+}
+
+.rank-row.is-me{
+  background:#faf6ff;
+  border-radius:14px;
+}
+
+.rank{
+  font-weight:900;
+  color:#8d7bb0;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#ded6ff,#ffe0d1);
+  font-weight:900;
+}
+
+.person small{
+  display:block;
+  color:#8d88a1;
+  margin-top:2px;
+}
+
+.sales-badge{
+  background:#ecf9f2;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  color:#5d8c70;
+}
+
+.stats-form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.stats-form label{
+  font-size:12px;
+  font-weight:800;
+  color:#746d84;
+}
+
+.stats-form input{
+  width:100%;
+  margin-top:6px;
+  padding:12px;
+  border:1px solid #ece8f4;
+  border-radius:12px;
+  background:#fbfaff;
+  color:#3f3b55;
+  outline:none;
+}
+
+.stats-form input:focus{
+  border-color:#b9acee;
+  box-shadow:0 0 0 4px #eeeaff;
+}
+
+.stats-form button{
+  grid-column:1/-1;
+  margin-top:10px;
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  background:linear-gradient(90deg,#9c8de5,#e7a9c7);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(155,139,224,.25);
+  transition:.25s ease;
+}
+
+.stats-form button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 15px 30px rgba(155,139,224,.32);
+}
+
+@media(max-width:1000px){
+  .cards{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid-two{
+    grid-template-columns:1fr;
+  }
+
+  .app-shell{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:relative;
+    height:auto;
+    display:flex;
+    align-items:center;
+    gap:20px;
+  }
+
+  .sidebar nav{
+    display:flex;
+  }
+
+  .welcome,
+  .logout{
+    display:none;
+  }
+
+  .content{
+    padding:28px 20px;
+  }
+}
+
+@media(max-width:640px){
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .topline{
+    display:block;
+  }
+
+  .pill{
+    display:inline-block;
+    margin-top:14px;
+  }
+
+  .stats-form{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    overflow-x:auto;
+  }
+}
