@@ -6,7 +6,7 @@ app.secret_key = os.environ.get('SECRET_KEY', 'change-this-in-render')
 DB_PATH = os.environ.get('DB_PATH', 'aura.db')
 
 USERS = {
-    'USERS = {
+    
     'nesrine': {'display': 'Nesrine', 'salt': 'YkJ+IC4c+50Q/z2fy1YomA==', 'hash': 'M8D/K0eEGU3GMi9vz1hfXGOKN4tZdX7Nbv5cQ4AFBCU='},
     'adel': {'display': 'Adel', 'salt': 'rkrm0MQy2tEsScpRU2TmiQ==', 'hash': 'aNy0apF27DHhFZwcybh6rbHaH1DeO3myVyMXjtEROwg='},
     'alix': {'display': 'Alix', 'salt': 'Uv2TMHtO11TwxejaeUIdEA==', 'hash': 'JEuHg8qIGcVmLwBsk098KDXnlKdrGINN+4vc47e7GGQ='},
