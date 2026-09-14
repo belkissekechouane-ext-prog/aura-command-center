@@ -36,7 +36,18 @@ def init_db():
         sales INTEGER NOT NULL DEFAULT 0,
         target INTEGER NOT NULL DEFAULT 10
     )''')
-    for username in USERS:
+       conn.execute('''CREATE TABLE IF NOT EXISTS daily_sales (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        sale_date TEXT NOT NULL,
+        calls INTEGER NOT NULL DEFAULT 0,
+        appointments INTEGER NOT NULL DEFAULT 0,
+        sales INTEGER NOT NULL DEFAULT 0,
+        revenue REAL NOT NULL DEFAULT 0,
+        comment TEXT DEFAULT '',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(username, sale_date)
+    )''') for username in USERS:
         conn.execute('INSERT OR IGNORE INTO stats(username, calls, appointments, sales, target) VALUES (?,0,0,0,10)', (username,))
     conn.commit()
     conn.close()
@@ -79,6 +90,94 @@ def dashboard():
     progress = min(100, round((me['sales'] / max(me['target'], 1)) * 100))
     return render_template('dashboard.html', me=me, display=USERS[username]['display'], leaderboard=leaderboard, totals=totals, progress=progress)
 
+
+
+@app.route('/suivi', methods=['GET', 'POST'])
+def suivi():
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+
+    conn = get_db()
+
+    if request.method == 'POST':
+        sale_date = request.form.get('sale_date', '').strip()
+        comment = request.form.get('comment', '').strip()
+
+        def safe_int(name):
+            try:
+                return max(0, int(request.form.get(name, 0)))
+            except (ValueError, TypeError):
+                return 0
+
+        def safe_float(name):
+            try:
+                return max(0, float(request.form.get(name, 0)))
+            except (ValueError, TypeError):
+                return 0
+
+        calls = safe_int('calls')
+        appointments = safe_int('appointments')
+        sales = safe_int('sales')
+        revenue = safe_float('revenue')
+
+        if not sale_date:
+            conn.close()
+            flash('Choisis une date.')
+            return redirect(url_for('suivi'))
+
+        conn.execute('''
+            INSERT INTO daily_sales
+            (username, sale_date, calls, appointments, sales, revenue, comment)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(username, sale_date)
+            DO UPDATE SET
+                calls=excluded.calls,
+                appointments=excluded.appointments,
+                sales=excluded.sales,
+                revenue=excluded.revenue,
+                comment=excluded.comment
+        ''', (
+            username, sale_date, calls,
+            appointments, sales, revenue, comment
+        ))
+
+        conn.commit()
+        conn.close()
+
+        flash('Ta journée a été enregistrée ✦')
+        return redirect(url_for('suivi'))
+
+    rows = conn.execute('''
+        SELECT *
+        FROM daily_sales
+        ORDER BY sale_date DESC, created_at DESC
+    ''').fetchall()
+
+    conn.close()
+
+    entries = []
+    for row in rows:
+        item = dict(row)
+        item['display'] = USERS.get(
+            item['username'],
+            {'display': item['username']}
+        )['display']
+        entries.append(item)
+
+    totals = {
+        'calls': sum(x['calls'] for x in entries),
+        'appointments': sum(x['appointments'] for x in entries),
+        'sales': sum(x['sales'] for x in entries),
+        'revenue': sum(x['revenue'] for x in entries)
+    }
+
+    return render_template(
+        'suivi.html',
+        display=USERS[username]['display'],
+        entries=entries,
+        totals=totals
+    )
 @app.post('/update')
 def update():
     username = session.get('username')
